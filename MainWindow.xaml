@@ -14,7 +14,12 @@
         <TextBox x:Name="TextBox_showreceive" x:FieldModifier="public" HorizontalAlignment="Left" Margin="100,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="228" Height="99"/>
         <TextBox x:Name="TextBox_angle" HorizontalAlignment="Left" Margin="100,294,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="141" Height="28"/>
         <Button Content="舵机&#xD;&#xA;角度" HorizontalAlignment="Left" Margin="41,285,0,0" VerticalAlignment="Top" Width="38" Height="45" Click="Button_Click"/>
-        <TextBlock x:Name="TextBlock_rece" HorizontalAlignment="Left" Margin="371,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="99" Width="383"/>
+        <TextBox x:Name="TextBox_Kp" HorizontalAlignment="Left" Margin="604,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="Button_Ki" Content="Ki" HorizontalAlignment="Left" Margin="532,255,0,0" VerticalAlignment="Top" Width="42" Height="31" Click="Button_Ki_Click"/>
+        <TextBox x:Name="TextBox_Ki" HorizontalAlignment="Left" Margin="604,262,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="Button_Kd" Content="Kd" HorizontalAlignment="Left" Margin="532,318,0,0" VerticalAlignment="Top" Width="43" Height="29" Click="Button_Kd_Click"/>
+        <TextBox x:Name="TextBox_Kd" HorizontalAlignment="Left" Margin="604,324,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="Button_Kp" Content="Kp" HorizontalAlignment="Left" Margin="532,133,0,0" VerticalAlignment="Top" Click="Button_Click_1" Width="54" Height="36"/>
 
     </Grid>
 </Window>
