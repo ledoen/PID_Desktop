@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO.Ports;
 using System.Diagnostics;
+using System.Threading;
 
 namespace PID
 {
@@ -31,6 +32,8 @@ namespace PID
             FindAvaPorts();
             Button_connect.Content = "connect";
             TextBox_showreceive.IsReadOnly = true;
+
+            Task.Factory.StartNew(RecordData);      //用于绘制图形
         }
 
         private void Button_connect_Click(object sender, RoutedEventArgs e)
@@ -79,6 +82,7 @@ namespace PID
             serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceHandler);    //注册事件处理函数
         }
         public string recedata="";
+        private short error;
         public void DataReceHandler(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort port = (SerialPort)sender;
@@ -93,7 +97,6 @@ namespace PID
                     //this.TextBox_showreceive.ScrollToEnd();
                     if (recedata.StartsWith('e')) {
                         string strerror = recedata.Substring(1,8);
-                        short error;
                         UInt32 buffnum = UInt32.Parse(strerror, System.Globalization.NumberStyles.HexNumber);
                         error = (short)(buffnum - 0xFFFF0000); 
 
@@ -223,6 +226,22 @@ namespace PID
                     str = "00.0";
                 str = str.Insert(0, "Dp");      //D用于检查数据有效，p用于标识当前数据为kp数据
                 serialPort.WriteLine(str);
+            }
+        }
+        private int index = 0;
+        private void RecordData()
+        {
+            // 持续生成随机数，模拟数据处理过程
+            while (true)
+            {
+                Thread.Sleep(500);
+                var r = new Random();
+                float phase = r.Next(1, 7);
+                float modulus = r.Next(1, 10);
+                // 更新图表数据
+                constantChangesChart.PhaseValue = (float)error;
+                constantChangesChart.ModulusValue = 0;
+                constantChangesChart.Index = index++;
             }
         }
     }

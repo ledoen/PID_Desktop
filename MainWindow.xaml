@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PID"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="1000">
     <Grid>
         <ComboBox x:Name="ComboBox_portselect" HorizontalAlignment="Left" Margin="131,35,0,0" VerticalAlignment="Top" Width="120" Height="33"/>
         <Button x:Name="Button_connect" HorizontalAlignment="Left" Margin="448,35,0,0" VerticalAlignment="Top" Height="33" Width="127" Click="Button_connect_Click" Content=""/>
@@ -22,6 +22,7 @@
         <Button x:Name="Button_Kp" Content="Kp" HorizontalAlignment="Left" Margin="44,239,0,0" VerticalAlignment="Top" Click="Button_Click_1" Width="54" Height="36"/>
         <TextBox x:Name="TextBox_error" HorizontalAlignment="Left" Margin="104,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label Content="误差" HorizontalAlignment="Left" Margin="44,200,0,0" VerticalAlignment="Top" Height="25" Width="50"/>
+        <local:ConstantChangesChart x:Name="constantChangesChart" HorizontalAlignment="Left" Margin="301,94,0,0" VerticalAlignment="Top" Height="320" Width="689"/>
 
     </Grid>
 </Window>
