@@ -78,17 +78,30 @@ namespace PID
             serialPort.Parity = Parity.None;
             serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceHandler);    //注册事件处理函数
         }
+        public string recedata="";
         public void DataReceHandler(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort port = (SerialPort)sender;
-
-            this.TextBox_showreceive.Dispatcher.Invoke(new Action(() =>
+            string str = port.ReadExisting();
+            recedata += str;
+            if (recedata.EndsWith('\n'))
             {
-                string str = port.ReadExisting();
-                this.TextBox_showreceive.Text += str;
-                this.TextBox_showreceive.ScrollToEnd();
-            }));
+                this.TextBox_showreceive.Dispatcher.Invoke(new Action(() =>
+                {
+                    //string str = port.ReadExisting();
+                    this.TextBox_showreceive.Text = recedata;
+                    //this.TextBox_showreceive.ScrollToEnd();
+                    if (recedata.StartsWith('e')) {
+                        string strerror = recedata.Substring(1,8);
+                        short error;
+                        UInt32 buffnum = UInt32.Parse(strerror, System.Globalization.NumberStyles.HexNumber);
+                        error = (short)(buffnum - 0xFFFF0000); 
 
+                        this.TextBox_error.Text = error.ToString();
+                    }
+                    recedata = "";
+                }));
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -179,7 +192,6 @@ namespace PID
                 if (str == "-00.0")
                     str = "00.0";
                 str = str.Insert(0, "Dd");      //D用于检查数据有效，d用于标识当前数据为kd数据
-                MessageBox.Show(str);
                 serialPort.WriteLine(str);
             }
         }
