@@ -46,15 +46,16 @@
                       	Foreground="DodgerBlue" 
                       	Title="误差"
                       	MaxValue="1200" 
-                          Unit="400"
-                      	MinValue="-1000">
+                        Unit="400"
+                      	MinValue="-1200">
                 </lvc:Axis>
                 <lvc:Axis x:Name="axisModlus"
                       	Foreground="IndianRed" 
                       	Title="目标值"
                       	Position="RightTop"
                       	MaxValue="1200" 
-                      	MinValue="-1000">
+                        Unit="400"
+                      	MinValue="-1200">
                 </lvc:Axis>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>

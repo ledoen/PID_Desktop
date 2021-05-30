@@ -82,6 +82,7 @@ namespace PID
             serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceHandler);    //注册事件处理函数
         }
         public string recedata="";
+        public UInt32 Kdata = 0;
         private short error;
         public void DataReceHandler(object sender, SerialDataReceivedEventArgs e)
         {
@@ -95,12 +96,25 @@ namespace PID
                     //string str = port.ReadExisting();
                     this.TextBox_showreceive.Text = recedata;
                     //this.TextBox_showreceive.ScrollToEnd();
-                    if (recedata.StartsWith('e')) {
+                    if (recedata.StartsWith('e')) {                 //接收到的数据为误差数据
                         string strerror = recedata.Substring(1,8);
                         UInt32 buffnum = UInt32.Parse(strerror, System.Globalization.NumberStyles.HexNumber);
                         error = (short)(buffnum - 0xFFFF0000); 
 
                         this.TextBox_error.Text = error.ToString();
+                    }
+                    if (recedata.StartsWith('K')) {             //接收到的数据为控制系数
+                        string strK = recedata.Substring(1,8);
+                        Kdata = UInt32.Parse(strK, System.Globalization.NumberStyles.HexNumber);
+                        //更新K数据
+                        float rkp = (float)((Kdata >> 20) & 0x3ff) / 10;
+                        this.TextBox_rKp.Text = rkp.ToString();
+
+                        float rki = (float)((Kdata >> 10) & 0x3ff) / 100;
+                        this.TextBox_rKi.Text = rki.ToString();
+
+                        float rkd = (float)(Kdata & 0x3ff) / 10;
+                        this.TextBox_rKd.Text = rkd.ToString();
                     }
                     recedata = "";
                 }));
@@ -235,13 +249,16 @@ namespace PID
             while (true)
             {
                 Thread.Sleep(500);
-                var r = new Random();
-                float phase = r.Next(1, 7);
-                float modulus = r.Next(1, 10);
+                //var r = new Random();
+                //float phase = r.Next(1, 7);
+                //float modulus = r.Next(1, 10);
                 // 更新图表数据
-                constantChangesChart.PhaseValue = (float)error;
-                constantChangesChart.ModulusValue = 0;
-                constantChangesChart.Index = index++;
+                if (serialPort.IsOpen)
+                {
+                    constantChangesChart.PhaseValue = (float)error;
+                    constantChangesChart.ModulusValue = 0;
+                    constantChangesChart.Index = index++;
+                }
             }
         }
     }
